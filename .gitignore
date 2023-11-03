@@ -1,2 +1,6 @@
 venv/
+migrations/
+__pycache__
+logs/
+mua.db
 run.cmd
