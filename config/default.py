@@ -1,7 +1,8 @@
-from logging.config import dictConfig
 import os
+from logging.config import dictConfig
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 dictConfig(
     {
         "version": 1,
