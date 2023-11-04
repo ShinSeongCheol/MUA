@@ -26,4 +26,7 @@ def create_app():
     else:
         migrate.init_app(app, db)
 
+    from .views import main
+    app.register_blueprint(main.bp)
+
     return app
