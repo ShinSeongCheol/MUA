@@ -11,11 +11,26 @@ class World(db.Model):
     name = db.Column(db.String(32), primary_key=True)
     type = db.Column(db.String(32), nullable=False)
 
+
 class Character(db.Model):
     nickname = db.Column(db.String(64), primary_key=True)
-    world_name = db.Column(db.String(32), db.ForeignKey("world_name"), ondelete="CASCADE", onupdate="CASCADE")
+    world_name = db.Column(
+        db.String(32),
+        db.ForeignKey("world_name"),
+        ondelete="CASCADE",
+        onupdate="CASCADE",
+    )
     user_id = db.Column(db.String(32), db.ForeignKey("user_id"), ondelete="CASCADE")
     occupation = db.Column(db.String(64), nullable=False)
     experience = db.Column(db.String(256))
     popularity = db.Column(db.Integer)
     guild = db.Column(db.String(64))
+
+
+class Rank(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    character_nickname = db.Column(
+        db.String(64), db.ForeignKey("character_nickname"), ondelete="CASCADE"
+    )
+    total_rank = db.Column(db.String(64))
+    world_rank = db.Column(db.String(64))
