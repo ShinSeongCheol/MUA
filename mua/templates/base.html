@@ -10,7 +10,7 @@
     <title>메이플 유니온 배치</title>
   </head>
   <body>
-    {% include 'navbar.html' %}
+    {% include 'navBar/navbar.html' %} {% include 'Banner/searchBanner.html' %}
     {% block content %} {% endblock %}
     <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
     {% block script %} {% endblock %}
