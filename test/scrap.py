@@ -18,6 +18,7 @@ class Unittest(unittest.TestCase):
         전체월드 랭킹 스크랩
         """
         URL = "https://maplestory.nexon.com/N23Ranking/World/Total?w=0"
+
         character_info = scrap.getCharacterInfo(URL)
         data: dict = character_info[0]
         rank = data.get("rank")
@@ -45,6 +46,31 @@ class Unittest(unittest.TestCase):
         """
         오로라 랭킹 스크랩
         """
+
+        URL = "https://maplestory.nexon.com/N23Ranking/World/Total?w=3"
+
+        character_info = scrap.getCharacterInfo(URL)
+        data: dict = character_info[0]
+        rank = data.get("rank")
+        image = data.get("image")
+        name = data.get("name")
+        occupation = data.get("occupation")
+        level = data.get("level")
+        expreience = data.get("expreience")
+        popularity = data.get("popularity")
+        guild = data.get("guild")
+
+        self.assertEqual(rank, "1")
+        self.assertEqual(
+            image,
+            "https://avatar.maplestory.nexon.com/Character/180/BFKHAHNPHNMFMMGAKEHGPJFFADKAAAMIAICBOFCCEEFDLPNJMDCEJFFDLJNBKPOLADGECHDIAGKDLBOEHCFCAFMNKFOMJPAKNFKCJFODANJLGPNAEELGFGBNFJBPMCBIJFPBDMINODOLMLHDICIKIPLBHPDEABAHKKCKBEDLLJPKDGNKICHAJMCACHGDHIJODDMLOMPEAMKJKOCLCHFDFMEAMOFBGEEMFKDGLKKLGHIGPEKCPIIBKJEPOEHJLOMO.png",
+        )
+        self.assertEqual(name, "시바개")
+        self.assertEqual(occupation, "아란")
+        self.assertEqual(level, "293")
+        self.assertEqual(expreience, "38,246,974,666,455")
+        self.assertEqual(popularity, "4,370")
+        self.assertEqual(guild, "아름다움")
 
     def test_getRedWorldCharacterInfo(self):
         """
