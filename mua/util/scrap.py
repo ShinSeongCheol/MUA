@@ -12,6 +12,13 @@ def getMapleHomeResponse():
 
 
 def getCharacterInfo(URL: str):
+    """
+    주어진 URL의 10명의 캐릭터 정보
+    Args:
+        URL: 캐릭터 정보를 얻을 URL
+    Returns:
+        캐릭터 정보(랭크, 이미지, 이름, 직업, 레벨, 경험치, 인기도, 길드)
+    """
     # URL의 페이지 정보
     response = requests.get(URL)
 
