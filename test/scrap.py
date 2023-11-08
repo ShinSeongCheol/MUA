@@ -11,7 +11,7 @@ class Unittest(unittest.TestCase):
         메이플 홈페이지 상태 확인
         """
         response = scrap.getMapleHomeResponse()
-        self.assertEqual(response.status, 200)
+        self.assertEqual(response.status_code, 200)
 
     def tearDown(self):
         pass
