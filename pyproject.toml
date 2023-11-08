@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "mua"
+version = "0.1.0"
+description = "Maple Union Arrangement"
+authors = ["Shin_Seong_Cheol <cher3725@naver.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flask-migrate = "^4.0.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
