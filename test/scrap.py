@@ -13,9 +13,9 @@ class Unittest(unittest.TestCase):
         response = scrap.getMapleHomeResponse()
         self.assertEqual(response.status_code, 200)
 
-    def test_getWholeWorldCharacterInfo(self):
+    def test_firstCharacterInfo(self):
         """
-        전체월드 랭킹 스크랩
+        첫번째 캐릭터 정보 확인
         """
         URL = "https://maplestory.nexon.com/N23Ranking/World/Total?w=0"
 
@@ -38,19 +38,20 @@ class Unittest(unittest.TestCase):
         self.assertEqual(name, "오지환")
         self.assertEqual(occupation, "키네시스")
         self.assertEqual(level, "295")
-        self.assertEqual(expreience, "611,251,115,519,887")
+        self.assertEqual(expreience, "616,213,799,872,414")
         self.assertEqual(popularity, "28,624")
         self.assertEqual(guild, "지존")
 
-    def test_getAuroraWorldCharacterInfo(self):
+    def test_lastCharaterInfo(self):
         """
-        오로라 랭킹 스크랩
+        마지막 캐릭터 정보 확인
         """
 
-        URL = "https://maplestory.nexon.com/N23Ranking/World/Total?w=3"
+        URL = "https://maplestory.nexon.com/N23Ranking/World/Total?w=0"
 
         character_info = scrap.getCharacterInfo(URL)
-        data: dict = character_info[0]
+        data: dict = character_info[9]
+
         rank = data.get("rank")
         image = data.get("image")
         name = data.get("name")
@@ -60,7 +61,7 @@ class Unittest(unittest.TestCase):
         popularity = data.get("popularity")
         guild = data.get("guild")
 
-        self.assertEqual(rank, "1")
+        self.assertEqual(rank, "10")
         self.assertEqual(
             image,
             "https://avatar.maplestory.nexon.com/Character/180/BFKHAHNPHNMFMMGAKEHGPJFFADKAAAMIAICBOFCCEEFDLPNJMDCEJFFDLJNBKPOLADGECHDIAGKDLBOEHCFCAFMNKFOMJPAKNFKCJFODANJLGPNAEELGFGBNFJBPMCBIJFPBDMINODOLMLHDICIKIPLBHPDEABAHKKCKBEDLLJPKDGNKICHAJMCACHGDHIJODDMLOMPEAMKJKOCLCHFDFMEAMOFBGEEMFKDGLKKLGHIGPEKCPIIBKJEPOEHJLOMO.png",
@@ -68,64 +69,9 @@ class Unittest(unittest.TestCase):
         self.assertEqual(name, "시바개")
         self.assertEqual(occupation, "아란")
         self.assertEqual(level, "293")
-        self.assertEqual(expreience, "38,246,974,666,455")
+        self.assertEqual(expreience, "42,600,973,228,514")
         self.assertEqual(popularity, "4,370")
         self.assertEqual(guild, "아름다움")
-
-    def test_getRedWorldCharacterInfo(self):
-        """
-        레드 랭킹 스크랩
-        """
-
-    def test_getEnosisWorldCharacterInfo(self):
-        """
-        이노시스 랭킹 스크랩
-        """
-
-    def test_getUnionWorldCharacterInfo(self):
-        """
-        유니온 랭킹 스크랩
-        """
-
-    def test_getScaniaWorldCharacterInfo(self):
-        """
-        스카니아 랭킹 스크랩
-        """
-
-    def test_getLunaWorldCharacterInfo(self):
-        """
-        루나 랭킹 스크랩
-        """
-
-    def test_getZenithWorldCharacterInfo(self):
-        """
-        제니스 랭킹 스크랩
-        """
-
-    def test_getCroixWorldCharacterInfo(self):
-        """
-        크로아 랭킹 스크랩
-        """
-
-    def test_getVeraWorldCharacterInfo(self):
-        """
-        베라 랭킹 스크랩
-        """
-
-    def test_getElysiumWorldCharacterInfo(self):
-        """
-        엘리시움 랭킹 스크랩
-        """
-
-    def test_getArcaneWorldCharacterInfo(self):
-        """
-        아케인 랭킹 스크랩
-        """
-
-    def test_getNovaWorldCharacterInfo(self):
-        """
-        노바 랭킹 스크랩
-        """
 
     def tearDown(self):
         pass
