@@ -79,5 +79,6 @@ def getCharacterInfo(URL: str):
 
         # 캐릭터 정보 리스트에 딕셔너리 추가
         character_info_list.append(character_info)
+        print(character_info_list)
 
     return character_info_list
