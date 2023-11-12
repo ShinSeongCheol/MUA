@@ -1,12 +1,21 @@
 from mua.util.scrap import getCharacterInfo
 from mua.models import Character
-from mua import scheduler
+from mua import create_app, db
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
-URL = "https://maplestory.nexon.com/N23Ranking/World/Total?w=0"
+scheduler = BackgroundScheduler()
+scheduler.start()
 
-@scheduler.scheduled_job('cron', second='*/10', args=(URL,))
-def updateCharacterInfo(URL):
-    result = getCharacterInfo(URL)
+app = create_app()
 
-# bs.add_job(updateCharacterInfo, "cron", second="*/10", id="totalRank1", args=(URL,))
+
+TOTAL_WORLD_URL = "https://maplestory.nexon.com/N23Ranking/World/Total?w=0"
+
+
+@scheduler.scheduled_job("cron", second="*/10", args=(TOTAL_WORLD_URL,))
+def updateWorldRank(URL):
+    with app.app_context():
+        result = getCharacterInfo(URL)
+
+        character = Character()
