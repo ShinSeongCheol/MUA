@@ -22,6 +22,7 @@ dictConfig(
                 "maxBytes": 1024 * 1024 * 5,
                 "backupCount": 5,
                 "formatter": "default",
+                "encoding": "utf-8",
             },
             "console": {
                 "class": "logging.StreamHandler",
