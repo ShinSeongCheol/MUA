@@ -45,7 +45,7 @@ def getCharacterInfo(URL: str):
             rank = rank.text.split()[0]
 
         # 캐릭터 이미지
-        image = table_row[i].select("td > span > img")[0]['src']
+        image = table_row[i].select("td > span > img")[0]["src"]
 
         # 캐릭터 이름
         name = table_row[i].select("td > dl > dt > a")[0].text
@@ -67,18 +67,17 @@ def getCharacterInfo(URL: str):
 
         # 캐릭터 정보 딕셔너리 생성
         character_info = {
-            "rank":rank,
-            "image":image,
-            "name":name,
-            "occupation":occupation,
-            "level":level,
-            "expreience":expreience,
-            "popularity":popularity,
-            "guild":guild
+            "rank": rank,
+            "image": image,
+            "name": name,
+            "occupation": occupation,
+            "level": level,
+            "expreience": expreience,
+            "popularity": popularity,
+            "guild": guild,
         }
 
         # 캐릭터 정보 리스트에 딕셔너리 추가
         character_info_list.append(character_info)
-        print(character_info_list)
 
     return character_info_list
