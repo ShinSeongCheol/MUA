@@ -73,6 +73,16 @@ class Unittest(unittest.TestCase):
         self.assertEqual(popularity, "4,370")
         self.assertEqual(guild, "아름다움")
 
+    def test_worldInfo(self):
+        """
+        월드 이름과 종류를 확인
+        """
+        WORLD_INFO_URL = "https://maplestory.nexon.com/N23Ranking/World/Total"
+        world_info = scrap.getWorldInfo(WORLD_INFO_URL)
+
+        self.assertEqual(world_info, "일반 월드")
+
+
     def tearDown(self):
         pass
 

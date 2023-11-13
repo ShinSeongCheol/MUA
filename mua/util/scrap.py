@@ -81,3 +81,41 @@ def getCharacterInfo(URL: str):
         character_info_list.append(character_info)
 
     return character_info_list
+
+
+def getWorldInfo(URL):
+    """
+    주어진 URL의 월드 정보
+    Args:
+        URL: 월드 정보를 얻을 URL
+    Returns:
+        월드 정보(이름, 종류)
+    """
+
+    # 요청
+    response = requests.get(URL)
+
+    # 응답 확인
+    if not response.ok:
+        return
+
+    bs = BeautifulSoup(response.text, "html.parser")
+
+    world_table_row = bs.select(
+        "#container > div > div > div.rank_search_wrapper > table > tr"
+    )
+
+    normal_world = world_table_row[1].select("div:nth-child(1) > span")[0].text
+    reboot_world = world_table_row[1].select("div:nth-child(2) > span")[0].text
+
+    normal_world_chanal = world_table_row[1].select("div:nth-child(1) > ul > li > a")
+    normal_world_chanal = [chanal.text for chanal in normal_world_chanal]
+
+    reboot_world_chanal = world_table_row[1].select("div:nth-child(2) > ul > li > a")
+    reboot_world_chanal = [chanal.text for chanal in reboot_world_chanal]
+
+    world_info = {}
+    world_info[normal_world] = normal_world_chanal
+    world_info[reboot_world] = reboot_world_chanal
+
+    return world_info
