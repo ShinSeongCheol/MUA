@@ -115,7 +115,7 @@ def getWorldInfo(URL):
     reboot_world_chanal = [chanal.text for chanal in reboot_world_chanal]
 
     world_info = {}
-    world_info[normal_world] = normal_world_chanal
-    world_info[reboot_world] = reboot_world_chanal
+    world_info[normal_world] = normal_world_chanal[1:]
+    world_info[reboot_world] = reboot_world_chanal[1:]
 
     return world_info

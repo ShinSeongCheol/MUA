@@ -17,6 +17,7 @@ db = SQLAlchemy(metadata=MetaData(naming_convention=naming_convention))
 migrate = Migrate()
 scheduler = APScheduler()
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_envvar("APP_CONFIG_FILE")
@@ -33,11 +34,20 @@ def create_app():
     scheduler.start()
 
     from mua.util.scheduler import updateWorld
-    scheduler.add_job(id="updateWorld", func=updateWorld, args=(app,))
+
+    # 월드 정보
+    WORLD_URL = "https://maplestory.nexon.com/N23Ranking/World/Total"
+    scheduler.add_job(
+        id="updateWorld",
+        func=updateWorld,
+        args=(
+            app,
+            WORLD_URL,
+        ),
+    )
 
     from .views import main
 
     app.register_blueprint(main.bp)
 
     return app
-
