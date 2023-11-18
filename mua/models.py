@@ -21,6 +21,9 @@ class Character(db.Model):
     user_name = db.Column(
         db.String(32), db.ForeignKey("user.user_name", ondelete="CASCADE")
     )
+    rank_id = db.Column(db.Integer, db.ForeignKey("rank.id", ondelete="CASCADE"))
+    image_id = db.Column(db.Integer, db.ForeignKey("image.id", ondelete="CASCADE"))
+    level = db.Column(db.String(4))
     occupation = db.Column(db.String(64), nullable=False)
     experience = db.Column(db.String(256))
     popularity = db.Column(db.Integer)
@@ -32,6 +35,7 @@ class Rank(db.Model):
     character_nickname = db.Column(
         db.String(64), db.ForeignKey("character.nickname", ondelete="CASCADE")
     )
+    update_date = db.Column(db.String(32))
     total_rank = db.Column(db.String(64))
     world_rank = db.Column(db.String(64))
 
