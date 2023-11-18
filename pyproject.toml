@@ -10,7 +10,7 @@ python = "^3.11"
 flask-migrate = "^4.0.5"
 requests = "^2.31.0"
 bs4 = "^0.0.1"
-apscheduler = "^3.10.4"
+flask-apscheduler = "^1.13.1"
 
 
 [build-system]
