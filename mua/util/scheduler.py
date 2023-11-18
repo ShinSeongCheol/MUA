@@ -13,17 +13,17 @@ def updateWorld(app):
     with app.app_context():
         response = getWorldInfo(url)
         normal_world: dict = response.get("일반 월드")
-        for world in normal_world:
+        for world, value in normal_world.items():
             world_name = World.query.get(world)
             if not world_name:
-                world_model = World(name=world, type="normal")
+                world_model = World(name=world, type="normal", value=value)
                 db.session.add(world_model)
 
         reboot_world: dict = response.get("리부트 월드")
-        for world in reboot_world:
+        for world, value in reboot_world.items():
             world_name = World.query.get(world)
             if not world_name:
-                world_model = World(name=world, type="reboot")
+                world_model = World(name=world, type="normal", value=value)
                 db.session.add(world_model)
         db.session.commit()
         db.session.close()

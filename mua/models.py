@@ -10,6 +10,7 @@ class User(db.Model):
 class World(db.Model):
     name = db.Column(db.String(32), primary_key=True)
     type = db.Column(db.String(32), nullable=False)
+    value = db.Column(db.String(4), unique=True)
 
 
 class Character(db.Model):

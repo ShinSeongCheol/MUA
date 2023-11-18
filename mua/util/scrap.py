@@ -111,11 +111,22 @@ def getWorldInfo(URL):
     normal_world_chanal = world_table_row[1].select("div:nth-child(1) > ul > li > a")
     normal_world_chanal = [chanal.text for chanal in normal_world_chanal]
 
+    normal_world_value = world_table_row[1].select("div:nth-child(1) > ul > li > input")
+    normal_world_value = [value["value"] for value in normal_world_value]
+
     reboot_world_chanal = world_table_row[1].select("div:nth-child(2) > ul > li > a")
     reboot_world_chanal = [chanal.text for chanal in reboot_world_chanal]
 
+    reboot_world_value = world_table_row[1].select("div:nth-child(2) > ul > li > input")
+    reboot_world_value = [value["value"] for value in reboot_world_value]
+
     world_info = {}
-    world_info[normal_world] = normal_world_chanal[1:]
-    world_info[reboot_world] = reboot_world_chanal[1:]
+    world_info[normal_world] = {}
+    for i in range(1, len(normal_world_chanal)):
+        world_info[normal_world][normal_world_chanal[i]] = normal_world_value[i]
+
+    world_info[reboot_world] = {}
+    for i in range(1, len(reboot_world_chanal)):
+        world_info[normal_world][reboot_world_chanal[i]] = reboot_world_value[i]
 
     return world_info
