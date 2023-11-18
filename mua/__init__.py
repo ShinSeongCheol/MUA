@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_apscheduler import APScheduler
 from sqlalchemy import MetaData
 
 
@@ -14,7 +15,7 @@ naming_convention = {
 
 db = SQLAlchemy(metadata=MetaData(naming_convention=naming_convention))
 migrate = Migrate()
-
+scheduler = APScheduler()
 
 def create_app():
     app = Flask(__name__)
@@ -27,10 +28,16 @@ def create_app():
     else:
         migrate.init_app(app, db)
 
+    # 스케줄 설정
+    scheduler.init_app(app)
+    scheduler.start()
+
+    from mua.util.scheduler import updateWorld
+    scheduler.add_job(id="updateWorld", func=updateWorld, args=(app,))
+
     from .views import main
 
     app.register_blueprint(main.bp)
 
-    import mua.util.scheduler
-
     return app
+
