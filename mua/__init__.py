@@ -33,17 +33,27 @@ def create_app():
     scheduler.init_app(app)
     scheduler.start()
 
-    from mua.util.scheduler import updateWorld
+    from mua.util.scheduler import updateWorld, updateWorldTotalRank
 
     # 월드 정보
-    WORLD_URL = "https://maplestory.nexon.com/N23Ranking/World/Total"
     scheduler.add_job(
         id="updateWorld",
         func=updateWorld,
         args=(
             app,
-            WORLD_URL,
         ),
+    )
+
+    scheduler.add_job(
+        id="updateTotalWorldRank",
+        func=updateWorldTotalRank,
+        args=(
+            app,
+        ),
+        trigger="cron",
+        hour=9,
+        minute=0,
+        second=0
     )
 
     from .views import main
