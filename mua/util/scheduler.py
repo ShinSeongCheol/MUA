@@ -1,25 +1,30 @@
 from mua.util.scrap import getCharacterInfo, getWorldInfo
-from apscheduler.schedulers.background import BackgroundScheduler
+from mua.models import World
+from mua import db
 
 
-scheduler = BackgroundScheduler()
-scheduler.start()
-
-
-WORLD_URL = "https://maplestory.nexon.com/N23Ranking/World/Total"
-
-
-@scheduler.scheduled_job("cron", second="*/20", args=(WORLD_URL,))
-def updateWorld(WORLD_URL):
+def updateWorld(app):
     """
     월드 이름과 종류를 업데이트 하기 위한 함수
     """
-    response = getWorldInfo(WORLD_URL)
+    WORLD_URL = "https://maplestory.nexon.com/N23Ranking/World/Total"
+    with app.app_context():
+        response = getWorldInfo(WORLD_URL)
+        normal_world: dict = response.get("일반 월드")
+        for world in normal_world:
+            world_model = World(name=world, type="normal")
+            db.session.add(world_model)
+
+        reboot_world: dict = response.get("리부트 월드")
+        for world in reboot_world:
+            world_model = World(name=world, type="reboot")
+            db.session.add(world_model)
+        db.session.commit()
+        db.session.close()
 
 
 TOTAL_WORLD_URL = "https://maplestory.nexon.com/N23Ranking/World/Total?w=0"
 
 
-@scheduler.scheduled_job("cron", second="*/10", args=(TOTAL_WORLD_URL,))
 def updateWorldRank(URL):
     response = getCharacterInfo(URL)
