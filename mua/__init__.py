@@ -31,18 +31,29 @@ def create_app():
 
     # 스케줄 설정
     scheduler.init_app(app)
-    scheduler.start()
 
     from mua.util.scheduler import updateWorld, updateWorldTotalRank
 
+    with app.app_context():
+        db.create_all()
+
     # 월드 정보
+    updateWorld(app)
+    # """
     scheduler.add_job(
         id="updateWorld",
         func=updateWorld,
         args=(
             app,
         ),
+        trigger="cron",
+        month='*',  # 매달
+        day='1',    # 1일
+        hour='9',   # 아침 9시
+        minute='0',
+        second='0'
     )
+    # """
 
     scheduler.add_job(
         id="updateTotalWorldRank",
@@ -55,6 +66,8 @@ def create_app():
         minute=0,
         second=0
     )
+
+    scheduler.start()
 
     from .views import main
 

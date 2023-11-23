@@ -1,5 +1,5 @@
-from mua.util.scrap import getCharacterInfo, getWorldInfo
-from mua.models import World, Character, Image, Rank
+from mua.models import World, Character, Image, Rank, World
+import mua.util.scrap
 from mua import db
 import datetime
 import time
@@ -11,19 +11,17 @@ def updateWorld(app):
     """
     url = "https://maplestory.nexon.com/N23Ranking/World/Total"
     with app.app_context():
-        response = getWorldInfo(url)
+        response = mua.util.scrap.getWorldInfo(url)
         normal_world: dict = response.get("일반 월드")
         for world, value in normal_world.items():
-            world_name = World.query.get(world)
-            if not world_name:
+            if not World.query.filter_by(name=world):
                 world_model = World(name=world, type="normal", value=value)
                 db.session.add(world_model)
 
         reboot_world: dict = response.get("리부트 월드")
         for world, value in reboot_world.items():
-            world_name = World.query.get(world)
-            if not world_name:
-                world_model = World(name=world, type="normal", value=value)
+            if not World.query.filter_by(name=world):
+                world_model = World(name=world, type="reboot", value=value)
                 db.session.add(world_model)
         db.session.commit()
         db.session.close()
@@ -38,7 +36,7 @@ def updateWorldTotalRank(app):
             TOTAL_WORLD_URL = "https://maplestory.nexon.com/N23Ranking/World/Total?page={page}".format(
                 page=i
             )
-            all_character_info = getCharacterInfo(TOTAL_WORLD_URL)
+            all_character_info = mua.util.scrap.getCharacterInfo(TOTAL_WORLD_URL)
 
             for character_info in all_character_info:
                 character_info: dict
@@ -47,7 +45,7 @@ def updateWorldTotalRank(app):
                 name = character_info.get("name")
                 occupation = character_info.get("occupation")
                 level = character_info.get("level")
-                expreience = character_info.get("expreience")
+                experience = character_info.get("expreience")
                 popularity = character_info.get("popularity")
                 guild = character_info.get("guild")
 
@@ -58,7 +56,7 @@ def updateWorldTotalRank(app):
                     character_nickname=name,
                     update_date=current_time.strftime("%Y-%m-%d, %H:%M:%S"),
                     total_rank=rank,
-                    world_rank=None
+                    world_rank=None,
                 )
                 db.session.add(rank_model)
 
@@ -72,30 +70,60 @@ def updateWorldTotalRank(app):
                 rank_id = (
                     Rank.query.filter_by(character_nickname=name)
                     .order_by(Rank.update_date.desc())
-                    .first().id
+                    .first()
+                    .id
                 )
 
                 image_id = (
                     Image.query.filter_by(character_nickname=name)
                     .order_by(Image.update_date.desc())
-                    .first().id
+                    .first()
+                    .id
                 )
 
-                character_model = Character(
-                    nickname=name,
-                    world_name=None,
-                    user_name=None,
-                    rank_id=rank_id,
-                    image_id=image_id,
-                    level = level,
-                    occupation=occupation,
-                    experience=expreience,
-                    popularity=popularity,
-                    guild=guild,
-                )
-                db.session.add(character_model)
+                # 특정 캐릭터 있으면 rank_id, image_id, level, experince, popularity, guild업데이트
+                character = Character.query.filter_by(nickname=name).first()
+                if character:
+                    character.rank_id = rank_id
+                    character.image_id = image_id
+                    character.level = level
+                    character.experience = experience
+                    character.popularity = popularity
+                    character.guild = guild
 
-            time.sleep(5)
+                    db.session.commit()
+                else:
+
+                    # 데이터베이스 일반월드 12개 가져와서
+                    # 정보 스크랩해서 값넣기
+                    all_world = World.query.all()
+                    character_world = ""
+                    for world in all_world:
+                        time.sleep(3)
+                        url = "https://maplestory.nexon.com/N23Ranking/World/Total?c={name}&w={value}".format(
+                            name=name, value=world.value
+                        )
+                        # 스크랩
+                        response = mua.util.scrap.getCharacterWorld(url)
+                        if len(response) > 0:
+                            character_world = world.name
+                            break
+
+                    character_model = Character(
+                        nickname=name,
+                        world_name=character_world,
+                        user_name=None,
+                        rank_id=rank_id,
+                        image_id=image_id,
+                        level=level,
+                        occupation=occupation,
+                        experience=experience,
+                        popularity=popularity,
+                        guild=guild,
+                    )
+                    db.session.add(character_model)
+
+            time.sleep(10)
 
             db.session.commit()
             db.session.close()

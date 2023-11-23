@@ -80,8 +80,38 @@ class Unittest(unittest.TestCase):
         WORLD_INFO_URL = "https://maplestory.nexon.com/N23Ranking/World/Total"
         world_info = scrap.getWorldInfo(WORLD_INFO_URL)
 
-        self.assertEqual(world_info, {'일반 월드': ['전체월드', '오로라', '레드', '이노시스', '유니온', '스카니아', '루나', '제니스', '크로아', '베라', '엘리시움', '아케인', '노바'], '리부트 월드': ['전체월드', '리부트2', '리부트']})
+        self.assertEqual(
+            world_info,
+            {
+                "일반 월드": [
+                    "전체월드",
+                    "오로라",
+                    "레드",
+                    "이노시스",
+                    "유니온",
+                    "스카니아",
+                    "루나",
+                    "제니스",
+                    "크로아",
+                    "베라",
+                    "엘리시움",
+                    "아케인",
+                    "노바",
+                ],
+                "리부트 월드": ["전체월드", "리부트2", "리부트"],
+            },
+        )
 
+    def test_characterWorld(self):
+        """
+        캐릭터 정보 확인
+        """
+        url = "https://maplestory.nexon.com/N23Ranking/World/Total?c={name}&w={value}".format(
+            name="린트겔", value=3
+        )
+        response = scrap.getCharacterWorld(url)
+        response:list
+        self.assertEqual(len(response), 0)
 
     def tearDown(self):
         pass

@@ -1,5 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
+
+ua = UserAgent()
 
 
 def getMapleHomeResponse():
@@ -7,7 +10,12 @@ def getMapleHomeResponse():
     메이플 홈페이지 응답
     """
     MAPLE_HOME_URL = "https://maplestory.nexon.com/Home/Main"
-    response = requests.get(MAPLE_HOME_URL)
+    response = requests.get(
+        MAPLE_HOME_URL,
+        headers={
+            "user-Agent": ua.random,
+        },
+    )
     return response
 
 
@@ -20,7 +28,12 @@ def getCharacterInfo(URL: str):
         캐릭터 정보(랭크, 이미지, 이름, 직업, 레벨, 경험치, 인기도, 길드)
     """
     # URL의 페이지 정보
-    response = requests.get(URL)
+    response = requests.get(
+        URL,
+        headers={
+            "user-Agent": ua.random,
+        },
+    )
 
     # 정상 응답이 아니면 종료
     if not response.ok:
@@ -93,7 +106,12 @@ def getWorldInfo(URL):
     """
 
     # 요청
-    response = requests.get(URL)
+    response = requests.get(
+        URL,
+        headers={
+            "user-Agent": ua.random,
+        },
+    )
 
     # 응답 확인
     if not response.ok:
@@ -127,6 +145,32 @@ def getWorldInfo(URL):
 
     world_info[reboot_world] = {}
     for i in range(1, len(reboot_world_chanal)):
-        world_info[normal_world][reboot_world_chanal[i]] = reboot_world_value[i]
+        world_info[reboot_world][reboot_world_chanal[i]] = reboot_world_value[i]
 
     return world_info
+
+
+def getCharacterWorld(URL):
+    """
+    캐릭터 월드 정보 확인
+    """
+
+    # 요청
+    response = requests.get(
+        URL,
+        headers={
+            "user-Agent": ua.random,
+        },
+    )
+
+    # 응답 확인
+    if not response.ok:
+        return
+
+    bs = BeautifulSoup(response.text, "html.parser")
+
+    table_row = bs.select(
+        "#container > div > div > div:nth-child(4) > div.rank_table_wrap > table > tbody > tr"
+    )
+
+    return table_row
