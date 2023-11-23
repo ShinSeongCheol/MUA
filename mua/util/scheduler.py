@@ -93,7 +93,6 @@ def updateWorldTotalRank(app):
 
                     db.session.commit()
                 else:
-
                     # 데이터베이스 일반월드 12개 가져와서
                     # 정보 스크랩해서 값넣기
                     all_world = World.query.all()
@@ -122,8 +121,102 @@ def updateWorldTotalRank(app):
                         guild=guild,
                     )
                     db.session.add(character_model)
+                    db.session.commit()     
 
             time.sleep(10)
 
-            db.session.commit()
-            db.session.close()
+        db.session.close()
+
+
+def updateWorldRank(app):
+    """
+    특정 월드 TOP100 랭킹 업데이트
+    """
+    with app.app_context():
+        # 월드 정보 가져오기
+        all_world = World.query.all()
+        # 월드 하나당 TOP100 업데이트
+        for world in all_world:
+            for i in range(1, 11):
+                url = "https://maplestory.nexon.com/N23Ranking/World/Total?page={page}&w={value}".format(
+                    page=i, value=world.value
+                )
+                # 주어진 url로 10명 캐릭터 스크랩
+                all_character_info = mua.util.scrap.getCharacterInfo(url)
+
+                # 정보 추출
+                for character_info in all_character_info:
+                    character_info: dict
+                    rank = character_info.get("rank")
+                    image = character_info.get("image")
+                    name = character_info.get("name")
+                    occupation = character_info.get("occupation")
+                    level = character_info.get("level")
+                    experience = character_info.get("expreience")
+                    popularity = character_info.get("popularity")
+                    guild = character_info.get("guild")
+
+                    KST = datetime.timezone(datetime.timedelta(hours=9))
+                    current_time = datetime.datetime.now(KST)
+
+                    rank_model = Rank(
+                        character_nickname=name,
+                        update_date=current_time.strftime("%Y-%m-%d, %H:%M:%S"),
+                        total_rank=rank,
+                        world_rank=None,
+                    )
+                    db.session.add(rank_model)
+
+                    image_model = Image(
+                        character_nickname=name,
+                        update_date=current_time.strftime("%Y-%m-%d, %H:%M:%S"),
+                        url=image,
+                    )
+                    db.session.add(image_model)
+
+                    rank_id = (
+                        Rank.query.filter_by(character_nickname=name)
+                        .order_by(Rank.update_date.desc())
+                        .first()
+                        .id
+                    )
+
+                    image_id = (
+                        Image.query.filter_by(character_nickname=name)
+                        .order_by(Image.update_date.desc())
+                        .first()
+                        .id
+                    )
+
+                    # 캐릭터가 데이터베이스에 존재하는지 확인
+                    character = Character.query.filter_by(nickname=name).first()
+
+                    # 있으면 업데이트
+                    if character:
+                        character.rank_id = rank_id
+                        character.image_id = image_id
+                        character.level = level
+                        character.experience = experience
+                        character.popularity = popularity
+                        character.guild = guild
+
+                        db.session.commit()
+                    # 없으면 새로 등록
+                    else:
+                        character_model = Character(
+                            nickname=name,
+                            world_name=world.name,
+                            user_name=None,
+                            rank_id=rank_id,
+                            image_id=image_id,
+                            level=level,
+                            occupation=occupation,
+                            experience=experience,
+                            popularity=popularity,
+                            guild=guild,
+                        )
+                        db.session.add(character_model)
+                        db.session.commit()
+
+                time.sleep(10)
+        db.session.close()
