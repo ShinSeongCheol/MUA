@@ -32,13 +32,14 @@ def create_app():
     # 스케줄 설정
     scheduler.init_app(app)
 
-    from mua.util.scheduler import updateWorld, updateWorldTotalRank, updateWorldRank
+    from mua.util.scheduler import updateWorld, updateWorldRank
 
     with app.app_context():
         db.create_all()
 
     # 월드 정보
-    updateWorld(app)
+    # updateWorld(app)
+    # updateWorldRank(app)
     # """
     scheduler.add_job(
         id="updateWorld",
@@ -53,8 +54,7 @@ def create_app():
         minute='0',
         second='0'
     )
-    # """
-
+    """
     scheduler.add_job(
         id="updateTotalWorldRank",
         func=updateWorldTotalRank,
@@ -66,6 +66,7 @@ def create_app():
         minute=0,
         second=0
     )
+    """
 
     scheduler.add_job(
         id="updateWorldRank",
@@ -79,7 +80,6 @@ def create_app():
         second=0
     )
 
-    # updateWorldRank(app)
 
     scheduler.start()
 

@@ -195,6 +195,7 @@ def updateWorldRank(app):
                     if character:
                         character.rank_id = rank_id
                         character.image_id = image_id
+                        character.world_name = world.name
                         character.level = level
                         character.experience = experience
                         character.popularity = popularity
