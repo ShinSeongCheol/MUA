@@ -162,8 +162,8 @@ def updateWorldRank(app):
                     rank_model = Rank(
                         character_nickname=name,
                         update_date=current_time.strftime("%Y-%m-%d, %H:%M:%S"),
-                        total_rank=rank,
-                        world_rank=None,
+                        total_rank=None,
+                        world_rank=rank,
                     )
                     db.session.add(rank_model)
 
