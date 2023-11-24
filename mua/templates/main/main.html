@@ -1,210 +1,25 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% block content %}
 <!-- 랭킹 카드 -->
-<div class="container text-center">
-  <div class="row justify-content-center">
-    <div class="col-4 my-4">
+<div class="container">
+  <div class="row row-cols-1 row-cols-lg-3">
+    {% for world_name, top_character in top_characters.items() %}
+    <div class="col g-4">
       <div class="card">
-        <div class="card-header">전체월드</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
+        <div class="card-header">{{world_name}}</div>
+        <img src="{{ top_character[0][1].url }}" class="card-img-top container-fluid w-75" alt="{{ top_character[0][0].nickname }}">
+        <div class="card-body">
+          <h5 class="card-title">{{top_character[0][0].nickname}}</h5>
+        </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
+          <li class="list-group-item">캐릭터 레벨 직업 길드</li>
+          {% for chracter, image in top_character %}
+          <li class="list-group-item">{{loop.index}}. {{chracter.nickname}} {{chracter.level}} {{chracter.occupation}}
+            {{chracter.guild}}</li>
+          {% endfor %}
         </ul>
       </div>
     </div>
-    <div class="col-4 my-4">
-      <div class="card">
-        <div class="card-header">오로라</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-4 my-4">
-      <div class="card">
-        <div class="card-header">레드</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-        </ul>
-      </div>
-    </div>
+    {% endfor %}
   </div>
-  <div class="row justify-content-center">
-    <div class="col-4 my-4">
-      <div class="card">
-        <div class="card-header">이노시스</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-4 my-4">
-      <div class="card">
-        <div class="card-header">유니온</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-4 my-4">
-      <div class="card">
-        <div class="card-header">스카니아</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="col-4 my-4">
-      <div class="card">
-        <div class="card-header">루나</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-4 my-4">
-      <div class="card">
-        <div class="card-header">제니스</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-4 my-4">
-      <div class="card">
-        <div class="card-header">크로아</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="col-4 my-4">
-      <div class="card">
-        <div class="card-header">베라</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-4 my-4">
-      <div class="card">
-        <div class="card-header">엘리시움</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-4 my-4">
-      <div class="card">
-        <div class="card-header">아케인</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="row justify-content-start">
-    <div class="col-4 my-4">
-      <div class="card">
-        <div class="card-header">노바</div>
-        <img src="..." class="card-img-top" alt="전체월드 랭킹 1등" />
-        <div class="card-body">캐릭터</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">An item</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-{% endblock %}
+  {% endblock %}
