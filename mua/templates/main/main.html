@@ -1,25 +1,44 @@
 {% extends 'base.html' %}
 {% block content %}
 <!-- 랭킹 카드 -->
-<div class="container">
+<div class="container-md mb-4">
   <div class="row row-cols-1 row-cols-lg-3">
     {% for world_name, top_character in top_characters.items() %}
     <div class="col g-4">
       <div class="card">
         <div class="card-header">{{world_name}}</div>
-        <img src="{{ top_character[0][1].url }}" class="card-img-top container-fluid w-75" alt="{{ top_character[0][0].nickname }}">
+        <img src="{{ top_character[0][1].url }}" class="card-img-top img-fluid mx-auto d-block w-75"
+          alt="{{ top_character[0][0].nickname }}">
         <div class="card-body">
           <h5 class="card-title">{{top_character[0][0].nickname}}</h5>
         </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">캐릭터 레벨 직업 길드</li>
-          {% for chracter, image in top_character %}
-          <li class="list-group-item">{{loop.index}}. {{chracter.nickname}} {{chracter.level}} {{chracter.occupation}}
-            {{chracter.guild}}</li>
-          {% endfor %}
+        <table class="table table-borderless table-sm mb-0 table-hover" id="character_table">
+          <thead class="table-light table-bordered text-left">
+            <tr>
+              <th class="text-center">순위</th>
+              <th>캐릭터</th>
+              <th>레벨</th>
+              <th>직업</th>
+              <th>길드</th>
+            </tr>
+            </ul>
+          </thead>
+          <tbody class="">
+            {% for chracter, image in top_character %}
+            <tr onclick="">
+              <td class="col text-center">{{loop.index}}</td>
+              <td class="col" id="character_nickname">{{chracter.nickname}}</td>
+              <td class="col">{{chracter.level}}</td>
+              <td class="col">{{chracter.occupation}}</td>
+              <td class="col">{{chracter.guild}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
         </ul>
       </div>
     </div>
     {% endfor %}
   </div>
-  {% endblock %}
+</div>
+{% endblock %}
