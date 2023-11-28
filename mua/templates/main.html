@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}" />
+  <script src="https://kit.fontawesome.com/c23a972113.js" crossorigin="anonymous"></script>
+  <title>메이플 유니온 배치</title>
+</head>
+
+<body>
+  {% include 'navBar/navbar.html' %} {% include 'Banner/searchBanner.html' %}
+  {% block content %} {% endblock %}
+  <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+  {% block script %}
+  {% endblock %}
+  {% include 'Footer/footer.html' %}
+</body>
+
+</html>
