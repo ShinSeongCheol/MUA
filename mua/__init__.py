@@ -83,8 +83,9 @@ def create_app():
 
     scheduler.start()
 
-    from .views import main
+    from .views import main,user
 
     app.register_blueprint(main.bp)
+    app.register_blueprint(user.bp)
 
     return app
