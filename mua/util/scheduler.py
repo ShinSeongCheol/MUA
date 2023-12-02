@@ -152,7 +152,7 @@ def updateWorldRank(app):
                     name = character_info.get("name")
                     occupation = character_info.get("occupation")
                     level = character_info.get("level")
-                    experience = character_info.get("expreience")
+                    experience = character_info.get("experience")
                     popularity = character_info.get("popularity")
                     guild = character_info.get("guild")
 
