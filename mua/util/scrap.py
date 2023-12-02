@@ -70,7 +70,7 @@ def getCharacterInfo(URL: str):
         level = table_row[i].select("td:nth-child(3)")[0].text.split("Lv.")[1]
 
         # 캐릭터 경험치
-        expreience = table_row[i].select("td:nth-child(4)")[0].text
+        experience = table_row[i].select("td:nth-child(4)")[0].text
 
         # 캐릭터 인기도
         popularity = table_row[i].select("td:nth-child(5)")[0].text
@@ -85,7 +85,7 @@ def getCharacterInfo(URL: str):
             "name": name,
             "occupation": occupation,
             "level": level,
-            "expreience": expreience,
+            "experience": experience,
             "popularity": popularity,
             "guild": guild,
         }
