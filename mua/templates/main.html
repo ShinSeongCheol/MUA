@@ -24,6 +24,17 @@
         document.getElementById('search_button').click();
       }
     })
+
+    document.getElementById('nav_search_button').addEventListener('click', function() {
+      let username = document.getElementById('nav_username').value;
+      location.href = `${location.origin}/user/${username}`;
+    });
+
+    document.getElementById('nav_username').addEventListener('keypress', function(event) {
+      if(event.code.toUpperCase() == 'ENTER') {
+        document.getElementById('nav_search_button').click();
+      }
+    });
   </script>
   {% block script %}
   {% endblock %}
