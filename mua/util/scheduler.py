@@ -29,7 +29,7 @@ def updateWorld(app):
 
 def updateWorldTotalRank(app):
     """
-    일반월드 전체 랭킹 업데이트
+    월드 전체 랭킹 업데이트
     """
     with app.app_context():
         for i in range(1, 11):
@@ -45,7 +45,7 @@ def updateWorldTotalRank(app):
                 name = character_info.get("name")
                 occupation = character_info.get("occupation")
                 level = character_info.get("level")
-                experience = character_info.get("expreience")
+                experience = character_info.get("experience")
                 popularity = character_info.get("popularity")
                 guild = character_info.get("guild")
 
