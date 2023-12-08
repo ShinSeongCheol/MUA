@@ -1,14 +1,16 @@
 from mua.models import World, Character, Image, Rank, World
+from flask import Flask
 import mua.util.scrap
-from mua import db
+from mua import db, scheduler
 import datetime
 import time
 
-
-def updateWorld(app):
+@scheduler.task("cron", id="updateWorld", day="*", hour=9)
+def updateWorld():
     """
     월드 이름과 종류를 업데이트
     """
+    app:Flask = scheduler.app
     url = "https://maplestory.nexon.com/N23Ranking/World/Total"
     with app.app_context():
         response = mua.util.scrap.getWorldInfo(url)
@@ -27,7 +29,7 @@ def updateWorld(app):
         db.session.close()
 
 
-def updateWorldTotalRank(app):
+def updateWorldTotalRank():
     """
     월드 전체 랭킹 업데이트
     """
@@ -140,11 +142,12 @@ def updateWorldTotalRank(app):
 
         db.session.close()
 
-
-def updateWorldRank(app):
+@scheduler.task("cron", id="updateWorldRank", hour=9)
+def updateWorldRank():
     """
     특정 월드 TOP100 랭킹 업데이트
     """
+    app:Flask = scheduler.app
     with app.app_context():
         # 월드 정보 가져오기
         all_world = World.query.all()
@@ -200,7 +203,7 @@ def updateWorldRank(app):
 
                         # 이름이 같은지 확인
                         if not total_world_nickname == world_nickname:
-                            break
+                            continue
                         else:
                             print(total_world_nickname, world_nickname)
 
@@ -272,5 +275,5 @@ def updateWorldRank(app):
                             db.session.add(character_model)
                             db.session.commit()
 
-                time.sleep(10)
+                time.sleep(6)
         db.session.close()

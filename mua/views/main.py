@@ -1,6 +1,7 @@
 from flask import Blueprint, url_for, render_template
 from werkzeug.utils import redirect
 from sqlalchemy import cast, INTEGER
+from mua.util.scheduler import updateWorldTotalRank
 
 from mua.models import *
 

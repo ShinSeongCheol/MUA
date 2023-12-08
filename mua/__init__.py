@@ -38,52 +38,10 @@ def create_app():
         db.create_all()
 
     # 월드 정보
-    # updateWorld(app)
-    # updateWorldRank(app)
-    # """
-    scheduler.add_job(
-        id="updateWorld",
-        func=updateWorld,
-        args=(
-            app,
-        ),
-        trigger="cron",
-        month='*',  # 매달
-        day='1',    # 1일
-        hour='9',   # 아침 9시
-        minute='0',
-        second='0'
-    )
-    """
-    scheduler.add_job(
-        id="updateTotalWorldRank",
-        func=updateWorldTotalRank,
-        args=(
-            app,
-        ),
-        trigger="cron",
-        hour=9,
-        minute=0,
-        second=0
-    )
-    """
-
-    scheduler.add_job(
-        id="updateWorldRank",
-        func=updateWorldRank,
-        args=(
-            app,
-        ),
-        trigger="cron",
-        hour=9,
-        minute=0,
-        second=0
-    )
-
-
+    updateWorld()
     scheduler.start()
 
-    from .views import main,user
+    from .views import main, user
 
     app.register_blueprint(main.bp)
     app.register_blueprint(user.bp)
