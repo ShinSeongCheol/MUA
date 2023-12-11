@@ -17,13 +17,13 @@ class Character(db.Model):
     nickname = db.Column(db.String(64), primary_key=True)
     world_name = db.Column(
         db.String(32),
-        db.ForeignKey("world.name", ondelete="CASCADE", onupdate="CASCADE"),
+        db.ForeignKey("world.name"),
     )
     user_name = db.Column(
-        db.String(32), db.ForeignKey("user.user_name", ondelete="CASCADE")
+        db.String(32), db.ForeignKey("user.user_name")
     )
-    rank_id = db.Column(db.Integer, db.ForeignKey("rank.id", ondelete="CASCADE"))
-    image_id = db.Column(db.Integer, db.ForeignKey("image.id", ondelete="CASCADE"))
+    rank_id = db.Column(db.Integer, db.ForeignKey("rank.id"))
+    image_id = db.Column(db.Integer, db.ForeignKey("image.id"))
     level = db.Column(db.String(4))
     occupation = db.Column(db.String(64), nullable=False)
     experience = db.Column(db.String(256))
@@ -34,7 +34,7 @@ class Character(db.Model):
 class Rank(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     character_nickname = db.Column(
-        db.String(64), db.ForeignKey("character.nickname", ondelete="CASCADE")
+        db.String(64), db.ForeignKey("character.nickname")
     )
     update_date = db.Column(db.String(32))
     total_rank = db.Column(db.String(64))
