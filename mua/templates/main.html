@@ -16,6 +16,7 @@
   <script>
     document.getElementById('search_button').addEventListener('click', function() {
       let username = document.getElementById('username').value;
+      document.getElementById('username').value = "";
       location.href = `${location.origin}/user/${username}`;
     });
 
@@ -27,6 +28,7 @@
 
     document.getElementById('nav_search_button').addEventListener('click', function() {
       let username = document.getElementById('nav_username').value;
+      document.getElementById('nav_username').value = "";
       location.href = `${location.origin}/user/${username}`;
     });
 
