@@ -159,7 +159,7 @@ def insertCharacter(nickname: str, world_type: str, base_url: str, search_url:st
                         guild=total_guild,
                     )
 
+                    db.session.add(character_model)
                 break
 
-        db.session.add(character_model)
         db.session.commit()
